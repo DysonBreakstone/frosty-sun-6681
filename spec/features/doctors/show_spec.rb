@@ -59,5 +59,28 @@ RSpec.describe "doctor show page", type: :feature do
         expect(page.all(:button, "Remove this patient").count).to eq(2)
       end
     end
+
+    it "doesn't delete patient records off of other doctors' pages" do
+      visit doctor_path(@doctor_1)
+
+      expect(page).to have_content("Patient 1")
+      expect(page).to have_content("Patient 3")
+
+      visit doctor_path(@doctor_3)
+
+      expect(page).to have_content("Patient 1")
+      expect(page).to have_content("Patient 3")
+
+      click_button "delete_#{@patient_1.id}"
+      click_button "delete_#{@patient_3.id}"
+
+      expect(page).to have_no_content("Patient 1")
+      expect(page).to have_no_content("Patient 3")
+
+      visit doctor_path(@doctor_1)
+
+      expect(page).to have_content("Patient 1")
+      expect(page).to have_content("Patient 3")
+    end
   end
 end
