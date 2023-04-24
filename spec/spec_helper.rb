@@ -13,6 +13,41 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+def test_data
+  @hospital_1 = Hospital.create!(name: "Hospital 1")
+  @hospital_2 = Hospital.create!(name: "Hospital 2")
+  @doctor_1 = @hospital_1.doctors.create!(name: "Doctor 1", specialty: "Specialty 1", education: "University 1")
+  @doctor_2 = @hospital_1.doctors.create!(name: "Doctor 2", specialty: "Specialty 2", education: "University 2")
+  @doctor_3 = @hospital_2.doctors.create!(name: "Doctor 3", specialty: "Specialty 3", education: "University 3")
+  @doctor_4 = @hospital_2.doctors.create!(name: "Doctor 4", specialty: "Specialty 4", education: "University 4")
+  @patient_1 = Patient.create!(name: "Patient 1", age: 1)
+  @patient_2 = Patient.create!(name: "Patient 2", age: 20)
+  @patient_3 = Patient.create!(name: "Patient 3", age: 2)
+  @patient_4 = Patient.create!(name: "Patient 4", age: 30)
+  @patient_5 = Patient.create!(name: "Patient 5", age: 3)
+  @patient_6 = Patient.create!(name: "Patient 6", age: 40)
+  @patient_7 = Patient.create!(name: "Patient 7", age: 4)
+  @patient_8 = Patient.create!(name: "Patient 8", age: 50)
+  @doctor_1.doctor_patients.create!(patient_id: @patient_1.id)
+  @doctor_1.doctor_patients.create!(patient_id: @patient_2.id)
+  @doctor_1.doctor_patients.create!(patient_id: @patient_3.id)
+  @doctor_1.doctor_patients.create!(patient_id: @patient_4.id)
+  @doctor_2.doctor_patients.create!(patient_id: @patient_5.id)
+  @doctor_2.doctor_patients.create!(patient_id: @patient_6.id)
+  @doctor_2.doctor_patients.create!(patient_id: @patient_7.id)
+  @doctor_2.doctor_patients.create!(patient_id: @patient_8.id)
+  @doctor_3.doctor_patients.create!(patient_id: @patient_1.id)
+  @doctor_3.doctor_patients.create!(patient_id: @patient_3.id)
+  @doctor_3.doctor_patients.create!(patient_id: @patient_5.id)
+  @doctor_3.doctor_patients.create!(patient_id: @patient_7.id)
+  @doctor_4.doctor_patients.create!(patient_id: @patient_2.id)
+  @doctor_4.doctor_patients.create!(patient_id: @patient_4.id)
+  @doctor_4.doctor_patients.create!(patient_id: @patient_6.id)
+  @doctor_4.doctor_patients.create!(patient_id: @patient_8.id)
+end
+
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
