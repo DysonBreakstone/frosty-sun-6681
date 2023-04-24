@@ -1,14 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe Hospital do
-  it {should have_many :doctors}
-
-  describe "instane methods" do
+RSpec.describe "patients index page", type: :feature do
+  describe 'display' do
     before do
       test_data
     end
 
-    it "#order_doctors" do
+    it "shows doctors ordered by # of patients" do
       @doctor_3.update(hospital_id: @hospital_1.id)
       @doctor_4.update(hospital_id: @hospital_1.id)
       @doctor_3.doctor_patients.create!(patient_id: @patient_2.id)
@@ -17,8 +15,16 @@ RSpec.describe Hospital do
       @doctor_4.doctor_patients.create!(patient_id: @patient_1.id)
       @doctor_4.doctor_patients.create!(patient_id: @patient_3.id)
       @doctor_1.doctor_patients.create!(patient_id: @patient_5.id)
+    
+      visit hospital_path(@hospital_1)
 
-      expect(Hospital.first.order_doctors).to eq([@doctor_3, @doctor_4, @doctor_1, @doctor_2])
+      within("#doctors") do
+        expect(page).to have_content("Doctors:")
+        expect("Doctor 3 - Patients: 7").to appear_before("Doctor 4 - Patients: 6")
+        expect("Doctor 4 - Patients: 6").to appear_before("Doctor 1 - Patients: 5")
+        expect("Doctor 1 - Patients: 5").to appear_before("Doctor 2 - Patients: 4")
+      end
+
     end
   end
 end
