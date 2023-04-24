@@ -1,0 +1,6 @@
+<h2><%= "All Patients over the age of 18:" %></h2>
+<ul>
+  <% @patients.over_18.each do |patient| %>
+    <li><%= patient.name %></li>
+  <% end %>
+</ul>
