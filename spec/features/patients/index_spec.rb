@@ -22,5 +22,18 @@ RSpec.describe "patients index page", type: :feature do
         expect(page).to have_no_content(pt.name)
       end
     end
+
+    it "alphabetical order" do
+      @patient_2.update(name: "charlie")
+      @patient_4.update(name: "Brian")
+      @patient_6.update(name: "Darren")
+      @patient_8.update(name: "atticus")
+
+      visit patients_path
+
+      expect("atticus").to appear_before("Brian")
+      expect("Brian").to appear_before("charlie")
+      expect("charlie").to appear_before("Darren")
+    end
   end
 end
